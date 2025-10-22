@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raquel Santos - Portfólio Profissional</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Variáveis de cores */
+        :root {
+            --roxo-escuro: #1a0b2e;
+            --roxo-medio: #2d1b69;
+            --roxo-claro: #5e35b1;
+            --roxo-suave: #7e57c2;
+            --roxo-neon: #b388ff;
+            --branco: #FFFFFF;
+            --cinza-claro: #F5F5F5;
+        }
+
+        /* Reset e estilos gerais */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--roxo-escuro), var(--roxo-medio), var(--roxo-claro));
+            color: var(--branco);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* Partículas animadas no fundo */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(179, 136, 255, 0.3);
+            border-radius: 50%;
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) translateX(0) rotate(0deg);
+                opacity: 0.2;
+            }
+            50% {
+                transform: translateY(-100px) translateX(100px) rotate(180deg);
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(0) translateX(0) rotate(360deg);
+                opacity: 0.2;
+            }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        /* Estilos do cabeçalho */
+        header {
+            text-align: center;
+            padding: 120px 0 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nome {
+            font-size: 4.5rem;
+            font-weight: 800;
+            margin-bottom: 30px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1.5s ease forwards;
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(45deg, var(--branco), var(--roxo-suave));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .foto-perfil {
+            width: 220px;
+            height: 220px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 5px solid transparent;
+            background: linear-gradient(45deg, var(--roxo-suave), var(--roxo-neon)) border-box;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            margin: 0 auto 40px;
+            display: block;
+            animation: pulse 3s infinite alternate, rotateBorder 8s infinite linear;
+            transition: transform 0.5s ease;
+        }
+
+        .foto-perfil:hover {
+            transform: scale(1.05);
+        }
+
+        @keyframes pulse {
+            from {
+                box-shadow: 0 0 20px var(--roxo-suave);
+            }
+            to {
+                box-shadow: 0 0 40px var(--roxo-neon);
+            }
+        }
+
+        @keyframes rotateBorder {
+            0% {
+                border-color: var(--roxo-suave);
+            }
+            25% {
+                border-color: var(--roxo-neon);
+            }
+            50% {
+                border-color: var(--roxo-claro);
+            }
+            75% {
+                border-color: var(--roxo-medio);
+            }
+            100% {
+                border-color: var(--roxo-suave);
+            }
+        }
+
+        /* Galeria de atividades */
+        .galeria-atividades {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin: 50px 0;
+            flex-wrap: wrap;
+        }
+
+        .atividade {
+            width: 300px;
+            height: 200px;
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .atividade:hover {
+            transform: translateY(-15px) scale(1.05);
+            box-shadow: 0 15px 30px rgba(179, 136, 255, 0.4);
+        }
+
+        .atividade img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .atividade:hover img {
+            transform: scale(1.1);
+        }
+
+        .atividade::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(to bottom, transparent, rgba(30, 15, 60, 0.7));
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .atividade:hover::after {
+            opacity: 1;
+        }
+
+        /* Estilos das áreas de atuação */
+        .areas-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+        }
+
+        .categoria {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .categoria::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.7s ease;
+        }
+
+        .categoria:hover::before {
+            left: 100%;
+        }
+
+        .categoria:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .categoria h3 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            color: var(--roxo-neon);
+            border-bottom: 2px solid var(--roxo-suave);
+            padding-bottom: 10px;
+            text-shadow: 0 0 10px rgba(179, 136, 255, 0.5);
+        }
+
+        .area-item {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            padding-left: 15px;
+        }
+
+        .area-item::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--roxo-neon);
+            transition: transform 0.3s ease;
+        }
+
+        .area-item:hover {
+            color: var(--roxo-neon);
+            padding-left: 20px;
+        }
+
+        .area-item:hover::before {
+            transform: translateX(5px);
+        }
+
+        /* Estilos da bio */
+        .bio {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 25px;
+            padding: 40px;
+            margin-top: 40px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .bio::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(179, 136, 255, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .bio h2 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            color: var(--roxo-neon);
+            text-shadow: 0 0 15px rgba(179, 136, 255, 0.5);
+        }
+
+        .bio p {
+            font-size: 1.2rem;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        /* Estilos dos trabalhos */
+        .trabalhos-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .trabalho {
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: transform 0.5s ease, box-shadow 0.5s ease;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            position: relative;
+        }
+
+        .trabalho:hover {
+            transform: translateY(-15px) scale(1.03);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .trabalho-img {
+            height: 200px;
+            background: linear-gradient(45deg, var(--roxo-medio), var(--roxo-claro), var(--roxo-suave));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .trabalho-img::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .trabalho:hover .trabalho-img::before {
+            transform: translateX(100%);
+        }
+
+        .trabalho-info {
+            padding: 25px;
+        }
+
+        .trabalho-info h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--roxo-neon);
+            text-shadow: 0 0 10px rgba(179, 136, 255, 0.5);
+        }
+
+        .trabalho-info p {
+            font-size: 1rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Estilos do rodapé */
+        footer {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 60px 0;
+            text-align: center;
+            margin-top: 80px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, var(--roxo-neon), transparent);
+        }
+
+        .contato {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 30px;
+            margin-top: 30px;
+        }
+
+        .contato-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50px;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+
+        .contato-item:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-5px);
+            border-color: var(--roxo-neon);
+            box-shadow: 0 10px 20px rgba(179, 136, 255, 0.3);
+        }
+
+        .contato-item i {
+            font-size: 1.5rem;
+            color: var(--roxo-neon);
+        }
+
+        /* Efeito de digitação */
+        .digitando {
+            overflow: hidden;
+            border-right: 2px solid var(--roxo-neon);
+            white-space: nowrap;
+            margin: 0 auto;
+            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0 }
+            to { width: 100% }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent }
+            50% { border-color: var(--roxo-neon) }
+        }
+
+        /* Responsividade */
+        @media (max-width: 768px) {
+            .nome {
+                font-size: 2.8rem;
+            }
+            
+            .areas-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .trabalhos-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .contato {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .galeria-atividades {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .atividade {
+                width: 100%;
+                max-width: 400px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Partículas animadas -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Cabeçalho com nome e foto -->
+    <header>
+        <div class="container">
+            <h1 class="nome">Raquel Santos</h1>
+            <img src="fotoperfil.jpg" alt="Foto de perfil de Raquel Santos" class="foto-perfil">
+            
+            <!-- Galeria de atividades -->
+            <div class="galeria-atividades">
+                <div class="atividade">
+                    <img src="atividade1.jpg" alt="Atividade 1">
+                </div>
+                <div class="atividade">
+                    <img src="atividade2.jpg" alt="Atividade 2">
+                </div>
+                <div class="atividade">
+                    <img src="atividade3.jpg" alt="Atividade 3">
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Áreas de atuação -->
+    <section id="areas">
+        <div class="container">
+            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 20px; text-shadow: 0 0 10px rgba(179, 136, 255, 0.5);">Áreas de Atuação</h2>
+            <div class="areas-container">
+                <!-- Ciências Exatas e Naturais -->
+                <div class="categoria">
+                    <h3>🧪 Ciências Exatas e Naturais</h3>
+                    <div class="area-item">Matemática Pura</div>
+                    <div class="area-item">Física Teórica</div>
+                    <div class="area-item">Química Orgânica</div>
+                    <div class="area-item">Química Industrial</div>
+                    <div class="area-item">Estatística</div>
+                    <div class="area-item">Astronomia</div>
+                    <div class="area-item">Geologia</div>
+                    <div class="area-item">Oceanografia</div>
+                    <div class="area-item">Meteorologia</div>
+                    <div class="area-item">Ciências Ambientais</div>
+                </div>
+
+                <!-- Computação e Tecnologia -->
+                <div class="categoria">
+                    <h3>💻 Computação e Tecnologia</h3>
+                    <div class="area-item">Ciência da Computação</div>
+                    <div class="area-item">Engenharia de Software</div>
+                    <div class="area-item">Inteligência Artificial</div>
+                    <div class="area-item">Análise de Dados</div>
+                    <div class="area-item">Cibersegurança</div>
+                    <div class="area-item">Redes de Computadores</div>
+                    <div class="area-item">Desenvolvimento Web</div>
+                    <div class="area-item">Computação Quântica</div>
+                    <div class="area-item">Robótica</div>
+                    <div class="area-item">Games e Realidade Virtual</div>
+                </div>
+
+                <!-- Engenharias -->
+                <div class="categoria">
+                    <h3>⚙️ Engenharias</h3>
+                    <div class="area-item">Engenharia Civil</div>
+                    <div class="area-item">Engenharia Mecânica</div>
+                    <div class="area-item">Engenharia Elétrica</div>
+                    <div class="area-item">Engenharia de Produção</div>
+                    <div class="area-item">Engenharia Química</div>
+                    <div class="area-item">Engenharia de Materiais</div>
+                    <div class="area-item">Engenharia de Petróleo</div>
+                    <div class="area-item">Engenharia de Alimentos</div>
+                    <div class="area-item">Engenharia de Controle e Automação</div>
+                    <div class="area-item">Engenharia Biomédica</div>
+                </div>
+
+                <!-- Continue com as outras categorias seguindo o mesmo padrão -->
+                <!-- Para economizar espaço, vou mostrar apenas algumas categorias no exemplo -->
+                
+                <!-- Saúde e Ciências Biológicas -->
+                <div class="categoria">
+                    <h3>⚕️ Saúde e Ciências Biológicas</h3>
+                    <div class="area-item">Medicina</div>
+                    <div class="area-item">Enfermagem</div>
+                    <div class="area-item">Odontologia</div>
+                    <div class="area-item">Farmácia</div>
+                    <div class="area-item">Fisioterapia</div>
+                    <div class="area-item">Biomedicina</div>
+                    <div class="area-item">Nutrição</div>
+                    <div class="area-item">Psicologia</div>
+                    <div class="area-item">Terapia Ocupacional</div>
+                    <div class="area-item">Educação Física</div>
+                </div>
+
+                <!-- Letras, Artes e Comunicação -->
+                <div class="categoria">
+                    <h3>📚 Letras, Artes e Comunicação</h3>
+                    <div class="area-item">Letras (Linguística e Literatura)</div>
+                    <div class="area-item">Jornalismo</div>
+                    <div class="area-item">Publicidade e Propaganda</div>
+                    <div class="area-item">Rádio, TV e Internet</div>
+                    <div class="area-item">Relações Públicas</div>
+                    <div class="area-item">Design Gráfico</div>
+                    <div class="area-item">Artes Visuais</div>
+                    <div class="area-item">Artes Cênicas (Teatro)</div>
+                    <div class="area-item">Música</div>
+                    <div class="area-item">Cinema e Audiovisual</div>
+                </div>
+
+                <!-- Outras Áreas e Interdisciplinares -->
+                <div class="categoria">
+                    <h3>🌐 Outras Áreas e Interdisciplinares</h3>
+                    <div class="area-item">Engenharia Nuclear</div>
+                    <div class="area-item">Nanotecnologia</div>
+                    <div class="area-item">Neurociência</div>
+                    <div class="area-item">Ciência dos Materiais</div>
+                    <div class="area-item">Estudos Interdisciplinares em Ciência e Tecnologia</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bio -->
+    <section id="bio">
+        <div class="container">
+            <div class="bio">
+                <h2>Sobre Mim</h2>
+                <p>Meu nome é Raquel Gonçalves dos Santos, tenho 22 anos e atuo na realização de atividades profissionais há aproximadamente 2 anos. Estou em constante desenvolvimento, sempre buscando aprender e evoluir em todas as áreas que me proponho a explorar.</p>
+                <p>Minha jornada começou com atividades escolares, onde descobri minha paixão por resolver problemas e criar soluções inovadoras. Ao longo desses dois anos, tenho me dedicado a projetos que desafiam minhas habilidades e me permitem crescer profissionalmente.</p>
+                <p>Acredito que o aprendizado contínuo é a chave para o sucesso, e por isso estou sempre aberta a novos desafios e oportunidades de desenvolvimento. Minha abordagem combina curiosidade intelectual com aplicação prática, resultando em trabalhos que são tanto academicamente sólidos quanto relevantes para o mundo real.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Trabalhos realizados -->
+    <section id="trabalhos">
+        <div class="container">
+            <h2 style="text-align: center; font-size: 2.5rem; margin-bottom: 20px; text-shadow: 0 0 10px rgba(179, 136, 255, 0.5);">Trabalhos Realizados</h2>
+            <div class="trabalhos-container">
+                <div class="trabalho">
+                    <div class="trabalho-img">📊</div>
+                    <div class="trabalho-info">
+                        <h3>Análise de Dados Educacionais</h3>
+                        <p>Desenvolvimento de relatórios analíticos para instituição de ensino, identificando padrões de desempenho estudantil e sugerindo melhorias pedagógicas.</p>
+                    </div>
+                </div>
+                
+                <div class="trabalho">
+                    <div class="trabalho-img">🔬</div>
+                    <div class="trabalho-info">
+                        <h3>Pesquisa em Materiais Sustentáveis</h3>
+                        <p>Participação em projeto de pesquisa sobre desenvolvimento de materiais ecológicos para aplicação em embalagens biodegradáveis.</p>
+                    </div>
+                </div>
+                
+                <div class="trabalho">
+                    <div class="trabalho-img">🌱</div>
+                    <div class="trabalho-info">
+                        <h3>Projeto de Conscientização Ambiental</h3>
+                        <p>Coordenação de campanha educativa sobre sustentabilidade em escolas públicas, envolvendo mais de 500 estudantes em atividades práticas.</p>
+                    </div>
+                </div>
+                
+                <div class="trabalho">
+                    <div class="trabalho-img">💻</div>
+                    <div class="trabalho-info">
+                        <h3>Desenvolvimento de Site Institucional</h3>
+                        <p>Criação de website para organização não-governamental, com design responsivo e acessível, aumentando em 40% o engajamento online.</p>
+                    </div>
+                </div>
+                
+                <div class="trabalho">
+                    <div class="trabalho-img">📚</div>
+                    <div class="trabalho-info">
+                        <h3>Material Didático Digital</h3>
+                        <p>Elaboração de conteúdo educativo digital para plataforma de ensino a distância, com foco em metodologias ativas de aprendizagem.</p>
+                    </div>
+                </div>
+                
+                <div class="trabalho">
+                    <div class="trabalho-img">🔍</div>
+                    <div class="trabalho-info">
+                        <h3>Estudo sobre Tecnologia na Educação</h3>
+                        <p>Pesquisa sobre o impacto do uso de tecnologias digitais no processo de aprendizagem de estudantes do ensino médio.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Rodapé com contatos -->
+    <footer>
+        <div class="container">
+            <h2 style="font-size: 2rem; margin-bottom: 20px; text-shadow: 0 0 10px rgba(179, 136, 255, 0.5);">Entre em Contato</h2>
+            <div class="contato">
+                <div class="contato-item">
+                    <i class="fas fa-phone-alt"></i>
+                    <span>(62) 99290-0737</span>
+                </div>
+                <div class="contato-item">
+                    <i class="fas fa-envelope"></i>
+                    <span>luhkaimn@gmail.com</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Criar partículas animadas
+        document.addEventListener('DOMContentLoaded', function() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Tamanho aleatório
+                const size = Math.random() * 20 + 5;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Posição aleatória
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.top = `${Math.random() * 100}%`;
+                
+                // Atraso aleatório na animação
+                particle.style.animationDelay = `${Math.random() * 15}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+            
+            // Efeito de digitação para elementos com a classe 'digitando'
+            const elementosDigitando = document.querySelectorAll('.digitando');
+            elementosDigitando.forEach(el => {
+                const texto = el.textContent;
+                el.textContent = '';
+                
+                let i = 0;
+                const timer = setInterval(() => {
+                    if (i < texto.length) {
+                        el.textContent += texto.charAt(i);
+                        i++;
+                    } else {
+                        clearInterval(timer);
+                    }
+                }, 100);
+            });
+            
+            // Efeito de parallax suave
+            window.addEventListener('scroll', function() {
+                const scrolled = window.pageYOffset;
+                const parallaxElements = document.querySelectorAll('.categoria, .trabalho');
+                
+                parallaxElements.forEach(el => {
+                    const speed = 0.05;
+                    const yPos = -(scrolled * speed);
+                    el.style.transform = `translateY(${yPos}px)`;
+                });
+            });
+        });
+    </script>
+</body>
+</html>
