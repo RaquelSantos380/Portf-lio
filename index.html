@@ -151,7 +151,7 @@
             }
         }
 
-        /* Galeria de atividades */
+        /* Galeria de atividades - MINIATURAS */
         .galeria-atividades {
             display: flex;
             justify-content: center;
@@ -201,6 +201,105 @@
 
         .atividade:hover::after {
             opacity: 1;
+        }
+
+        /* MODAL PARA VISUALIZAÇÃO EM TELA CHEIA */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-conteudo {
+            position: relative;
+            margin: auto;
+            display: block;
+            width: 90%;
+            max-width: 1200px;
+            height: 90vh;
+            margin-top: 2%;
+            animation: zoomIn 0.3s ease;
+        }
+
+        @keyframes zoomIn {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        .modal-conteudo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .fechar {
+            position: absolute;
+            top: 15px;
+            right: 35px;
+            color: var(--branco);
+            font-size: 40px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            z-index: 1001;
+        }
+
+        .fechar:hover {
+            color: var(--roxo-neon);
+            transform: rotate(90deg);
+        }
+
+        .navegacao {
+            position: absolute;
+            top: 50%;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            transform: translateY(-50%);
+            z-index: 1001;
+        }
+
+        .anterior, .proximo {
+            color: var(--branco);
+            font-size: 50px;
+            cursor: pointer;
+            transition: 0.3s;
+            background: rgba(0, 0, 0, 0.5);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .anterior:hover, .proximo:hover {
+            color: var(--roxo-neon);
+            background: rgba(0, 0, 0, 0.8);
+            transform: scale(1.1);
+        }
+
+        .legenda {
+            position: absolute;
+            bottom: 20px;
+            width: 100%;
+            text-align: center;
+            color: var(--branco);
+            font-size: 1.2rem;
+            padding: 10px;
+            background: rgba(0, 0, 0, 0.7);
         }
 
         /* Estilos das áreas de atuação */
@@ -440,25 +539,6 @@
             color: var(--roxo-neon);
         }
 
-        /* Efeito de digitação */
-        .digitando {
-            overflow: hidden;
-            border-right: 2px solid var(--roxo-neon);
-            white-space: nowrap;
-            margin: 0 auto;
-            animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
-        }
-
-        @keyframes typing {
-            from { width: 0 }
-            to { width: 100% }
-        }
-
-        @keyframes blink-caret {
-            from, to { border-color: transparent }
-            50% { border-color: var(--roxo-neon) }
-        }
-
         /* Responsividade */
         @media (max-width: 768px) {
             .nome {
@@ -487,6 +567,23 @@
                 width: 100%;
                 max-width: 400px;
             }
+            
+            .modal-conteudo {
+                width: 95%;
+                height: 70vh;
+            }
+            
+            .anterior, .proximo {
+                font-size: 30px;
+                width: 40px;
+                height: 40px;
+            }
+            
+            .fechar {
+                font-size: 30px;
+                top: 10px;
+                right: 20px;
+            }
         }
     </style>
 </head>
@@ -502,18 +599,31 @@
             
             <!-- Galeria de atividades -->
             <div class="galeria-atividades">
-                <div class="atividade">
-                    <img src="atividade1.jpg" alt="Atividade 1">
+                <div class="atividade" onclick="abrirModal(0)">
+                    <img src="atividade1.jpg" alt="Análise de Dados Educacionais">
                 </div>
-                <div class="atividade">
-                    <img src="atividade2.jpg" alt="Atividade 2">
+                <div class="atividade" onclick="abrirModal(1)">
+                    <img src="atividade2.jpg" alt="Pesquisa em Materiais Sustentáveis">
                 </div>
-                <div class="atividade">
-                    <img src="atividade3.jpg" alt="Atividade 3">
+                <div class="atividade" onclick="abrirModal(2)">
+                    <img src="atividade3.jpg" alt="Projeto de Conscientização Ambiental">
                 </div>
             </div>
         </div>
     </header>
+
+    <!-- Modal para visualização em tela cheia -->
+    <div id="modalAtividade" class="modal">
+        <span class="fechar" onclick="fecharModal()">&times;</span>
+        <div class="navegacao">
+            <div class="anterior" onclick="mudarAtividade(-1)">&#10094;</div>
+            <div class="proximo" onclick="mudarAtividade(1)">&#10095;</div>
+        </div>
+        <div class="modal-conteudo">
+            <img id="imagemModal" src="" alt="">
+            <div class="legenda" id="legendaModal"></div>
+        </div>
+    </div>
 
     <!-- Áreas de atuação -->
     <section id="areas">
@@ -697,6 +807,24 @@
     </footer>
 
     <script>
+        // Dados das atividades
+        const atividades = [
+            {
+                imagem: "atividade1.jpg",
+                titulo: "Análise de Dados Educacionais"
+            },
+            {
+                imagem: "atividade2.jpg",
+                titulo: "Pesquisa em Materiais Sustentáveis"
+            },
+            {
+                imagem: "atividade3.jpg",
+                titulo: "Projeto de Conscientização Ambiental"
+            }
+        ];
+
+        let atividadeAtual = 0;
+
         // Criar partículas animadas
         document.addEventListener('DOMContentLoaded', function() {
             const particlesContainer = document.getElementById('particles');
@@ -720,35 +848,69 @@
                 
                 particlesContainer.appendChild(particle);
             }
+        });
+
+        // Funções para o modal de atividades
+        function abrirModal(index) {
+            atividadeAtual = index;
+            const modal = document.getElementById('modalAtividade');
+            const imagemModal = document.getElementById('imagemModal');
+            const legendaModal = document.getElementById('legendaModal');
             
-            // Efeito de digitação para elementos com a classe 'digitando'
-            const elementosDigitando = document.querySelectorAll('.digitando');
-            elementosDigitando.forEach(el => {
-                const texto = el.textContent;
-                el.textContent = '';
-                
-                let i = 0;
-                const timer = setInterval(() => {
-                    if (i < texto.length) {
-                        el.textContent += texto.charAt(i);
-                        i++;
-                    } else {
-                        clearInterval(timer);
-                    }
-                }, 100);
-            });
+            imagemModal.src = atividades[atividadeAtual].imagem;
+            legendaModal.textContent = atividades[atividadeAtual].titulo;
+            modal.style.display = "block";
             
-            // Efeito de parallax suave
-            window.addEventListener('scroll', function() {
-                const scrolled = window.pageYOffset;
-                const parallaxElements = document.querySelectorAll('.categoria, .trabalho');
-                
-                parallaxElements.forEach(el => {
-                    const speed = 0.05;
-                    const yPos = -(scrolled * speed);
-                    el.style.transform = `translateY(${yPos}px)`;
-                });
-            });
+            // Prevenir rolagem da página quando o modal estiver aberto
+            document.body.style.overflow = "hidden";
+        }
+
+        function fecharModal() {
+            const modal = document.getElementById('modalAtividade');
+            modal.style.display = "none";
+            
+            // Restaurar rolagem da página
+            document.body.style.overflow = "auto";
+        }
+
+        function mudarAtividade(direcao) {
+            atividadeAtual += direcao;
+            
+            // Verificar limites
+            if (atividadeAtual >= atividades.length) {
+                atividadeAtual = 0;
+            } else if (atividadeAtual < 0) {
+                atividadeAtual = atividades.length - 1;
+            }
+            
+            // Atualizar modal
+            const imagemModal = document.getElementById('imagemModal');
+            const legendaModal = document.getElementById('legendaModal');
+            
+            imagemModal.src = atividades[atividadeAtual].imagem;
+            legendaModal.textContent = atividades[atividadeAtual].titulo;
+        }
+
+        // Fechar modal ao clicar fora da imagem
+        window.onclick = function(event) {
+            const modal = document.getElementById('modalAtividade');
+            if (event.target == modal) {
+                fecharModal();
+            }
+        }
+
+        // Navegação por teclado
+        document.addEventListener('keydown', function(event) {
+            const modal = document.getElementById('modalAtividade');
+            if (modal.style.display === "block") {
+                if (event.key === "Escape") {
+                    fecharModal();
+                } else if (event.key === "ArrowLeft") {
+                    mudarAtividade(-1);
+                } else if (event.key === "ArrowRight") {
+                    mudarAtividade(1);
+                }
+            }
         });
     </script>
 </body>
